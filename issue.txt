@@ -1,0 +1,12 @@
+1. Container not working [mx-auto]
+2. tailwind.config.json not same as video and bg-priamry-gradient not working
+
+
+Reminder : Added in tsconifg.node.json
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+
+
+** in shadcn install , used neutral as base color 
