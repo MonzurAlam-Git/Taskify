@@ -1,5 +1,11 @@
-1. Container not working [mx-auto]
 2. tailwind.config.json not same as video and bg-priamry-gradient not working
+3. All my post and input data is stored in a object named Data[current path : data.data] first then storing the rest , setting data as {data} solves this porblem. need to reseacrh more
+
+
+1.[Solved] data?.data working but if i write const tasks= data?.data and then want to map taks its not working -> 
+The issue with const tasks = data?.data; followed by tasks.map(...) arises because, while data?.data could be undefined during the initial render (before the data is fetched), the TypeScript type system cannot guarantee that tasks is always an array at that point. Therefore, tasks might be undefined, causing tasks.map to fail.
+ {tasks ? tasks.map((item).....}
+
 
 
 Reminder : Added in tsconifg.node.json

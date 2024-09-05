@@ -8,31 +8,39 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAddToDoMutation } from "@/Redux/API/api";
 import { addToDo } from "@/Redux/features/todoSlice";
 import { useAppDispatch } from "@/Redux/Hooks/hook";
 import { FormEvent, useState } from "react";
+import { setPriority } from "os";
 
 const AddTodoModal = () => {
   const [title, setTitle] = useState("");
-  const [priority, setpriority] = useState("high");
+  const [priority, setPriority] = useState("high");
   const [description, setdescription] = useState("");
 
-  const dispatch = useAppDispatch();
+  //! Local State management
+  // const dispatch = useAppDispatch();
 
-  const generateId = () => {
-    const id = Math.random().toString(36).substring(2);
-    return id;
-  };
+  const [updateTodo, { data, error, isLoading }] = useAddToDoMutation();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    console.log({ title, description, priority });
-    const id = generateId();
-    const data = { id, title, description, priority };
-
-    dispatch(addToDo(data));
+    const data = { title, description, priority, isCompleted: false };
+    console.log(data);
+    updateTodo({ data });
   };
 
   return (
@@ -84,18 +92,22 @@ const AddTodoModal = () => {
             <Label htmlFor="priority" className="text-right">
               Priority
             </Label>
-            <select
-              onBlur={(e) => setpriority(e.target.value)}
-              id="priority"
-              className="col-span-3 p-2 border rounded-md"
-            >
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-            </select>
+            <Select onValueChange={(value) => setPriority(value)}>
+              <SelectTrigger className="col-span-3">
+                <SelectValue placeholder="Priority" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Priority</SelectLabel>
+                  <SelectItem value="high">High</SelectItem>
+                  <SelectItem value="medium">Medium</SelectItem>
+                  <SelectItem value="low">Low</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
 
-          <div className="flex justify-end">
+          <div className="flex justify-end mt-5">
             <DialogClose asChild>
               <Button type="submit" variant="default">
                 Submit
