@@ -1,3 +1,4 @@
+import { toggleState } from "@/Redux/features/todoSlice";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const todoApi = createApi({
@@ -37,12 +38,23 @@ export const todoApi = createApi({
 
     updateToDo: builder.mutation({
       query: (data) => {
-        const { id, toggleData } = data;
-        console.log(data);
+        const { id, updateData } = data;
+
         return {
           url: `/task/${id}`,
           method: "PUT",
-          body: toggleData,
+          body: updateData,
+        };
+      },
+      invalidatesTags: ["Todo"],
+    }),
+
+    deleteToDo: builder.mutation({
+      query: (id) => {
+        console.log("Delete ID From API", id);
+        return {
+          url: `/task/${id}`,
+          method: "delete",
         };
       },
       invalidatesTags: ["Todo"],
@@ -50,5 +62,9 @@ export const todoApi = createApi({
   }),
 });
 
-export const { useGetToDosQuery, useAddToDoMutation, useUpdateToDoMutation } =
-  todoApi;
+export const {
+  useGetToDosQuery,
+  useAddToDoMutation,
+  useUpdateToDoMutation,
+  useDeleteToDoMutation,
+} = todoApi;

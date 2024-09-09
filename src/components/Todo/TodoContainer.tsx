@@ -1,4 +1,3 @@
-import { useAppSelector } from "@/Redux/Hooks/hook";
 import AddTodoModal from "./AddTodoModal";
 import Filter from "./Filter";
 import TodoCard from "./TodoCard";
@@ -9,6 +8,7 @@ const TodoContainer = () => {
   // const { todos } = useAppSelector((state) => state.todos);
   const [priority, setPriority] = useState("");
   const { data, error, isLoading } = useGetToDosQuery(priority);
+  console.log(data);
 
   if (error) {
     console.log(error);

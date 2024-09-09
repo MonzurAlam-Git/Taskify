@@ -34,13 +34,13 @@ const AddTodoModal = () => {
   //! Local State management
   // const dispatch = useAppDispatch();
 
-  const [updateTodo, { data, error, isLoading }] = useAddToDoMutation();
+  const [addToDo, { data }] = useAddToDoMutation();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     const data = { title, description, priority, isCompleted: false };
     console.log("data inside add to do", data);
-    updateTodo({ data });
+    addToDo({ data });
   };
 
   return (

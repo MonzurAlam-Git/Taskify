@@ -1,8 +1,8 @@
 import { removeToDo, toggleState } from "@/Redux/features/todoSlice";
 import { Button } from "../ui/button";
 
-import { useAppDispatch } from "@/Redux/Hooks/hook";
-import { useUpdateToDoMutation } from "@/Redux/API/api";
+import { useDeleteToDoMutation, useUpdateToDoMutation } from "@/Redux/API/api";
+import UpdateTodo from "./UpdateTodo";
 
 type ComponentProps = {
   id: string;
@@ -20,9 +20,10 @@ const TodoCard = ({
   priority,
 }: ComponentProps) => {
   const [updateTodo, { data }] = useUpdateToDoMutation();
-  const dispatch = useAppDispatch();
 
-  const toggleData = {
+  const [deleteTodo, { deleteData }] = useDeleteToDoMutation();
+
+  const updateData = {
     id,
     title,
     description,
@@ -32,7 +33,7 @@ const TodoCard = ({
 
   const options = {
     id: id,
-    toggleData,
+    updateData,
   };
 
   return (
@@ -65,7 +66,7 @@ const TodoCard = ({
       </div>
       <p className="flex-[2]">{description}</p>
       <div className="flex space-x-3">
-        <Button onClick={() => dispatch(removeToDo(id))} className="bg-red-500">
+        <Button onClick={() => deleteTodo(id)} className="bg-red-500">
           <svg
             className="size-5"
             data-slot="icon"
@@ -83,27 +84,8 @@ const TodoCard = ({
             ></path>
           </svg>
         </Button>
-        <Button
-          className="bg-indigo-600"
-          onClick={() => updateTodo(toggleData)}
-        >
-          <svg
-            className="size-5"
-            data-slot="icon"
-            fill="none"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
-            ></path>
-          </svg>
-        </Button>
+        {/* Update Button */}
+        <UpdateTodo id={id}></UpdateTodo>
       </div>
     </div>
   );
