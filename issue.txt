@@ -1,5 +1,8 @@
 2. tailwind.config.json not same as video and bg-priamry-gradient not working
 3. All my post and input data is stored in a object named Data[current path : data.data] first then storing the rest , setting data as {data} solves this porblem. need to reseacrh more
+4. remove task not working
+5. console.log("data inside API", data);
+
 
 
 1.[Solved] data?.data working but if i write const tasks= data?.data and then want to map taks its not working -> 

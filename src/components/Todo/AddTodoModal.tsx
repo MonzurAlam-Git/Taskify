@@ -39,7 +39,7 @@ const AddTodoModal = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     const data = { title, description, priority, isCompleted: false };
-    console.log(data);
+    console.log("data inside add to do", data);
     updateTodo({ data });
   };
 

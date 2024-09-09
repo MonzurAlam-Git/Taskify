@@ -2,6 +2,7 @@ import { removeToDo, toggleState } from "@/Redux/features/todoSlice";
 import { Button } from "../ui/button";
 
 import { useAppDispatch } from "@/Redux/Hooks/hook";
+import { useUpdateToDoMutation } from "@/Redux/API/api";
 
 type ComponentProps = {
   id: string;
@@ -18,15 +19,31 @@ const TodoCard = ({
   isCompleted,
   priority,
 }: ComponentProps) => {
+  const [updateTodo, { data }] = useUpdateToDoMutation();
   const dispatch = useAppDispatch();
+
+  const toggleData = {
+    id,
+    title,
+    description,
+    priority,
+    isCompleted: !isCompleted,
+  };
+
+  const options = {
+    id: id,
+    toggleData,
+  };
+
   return (
     <div className="bg-white flex justify-between items-center p-3 border rounded ">
       <input
-        onChange={() => dispatch(toggleState(id))}
+        onChange={() => updateTodo(options)}
         className="size-3 mr-3"
         type="checkbox"
         name="checklist"
         id=""
+        defaultChecked={isCompleted}
       />
       <p className="flex-1 font-bold">{title}</p>
       <div className="flex flex-1 items-center gap-2">
@@ -66,7 +83,10 @@ const TodoCard = ({
             ></path>
           </svg>
         </Button>
-        <Button className="bg-indigo-600">
+        <Button
+          className="bg-indigo-600"
+          onClick={() => updateTodo(toggleData)}
+        >
           <svg
             className="size-5"
             data-slot="icon"

@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { useAppSelector } from "../Hooks/hook";
+import { useGetToDosQuery } from "../API/api";
 
 type TToDo = {
   id: string;
@@ -20,15 +22,20 @@ export const todoSlice = createSlice({
   name: "todo",
   initialState: initialState,
   reducers: {
-    addToDo: (state, action: PayloadAction<TToDo>) => {
-      // state.todos.push(action.payload);
-      state.todos.push({ ...action.payload, isCompleted: false });
-    },
+    // addToDo: (state, action: PayloadAction<TToDo>) => {
+    //   // state.todos.push(action.payload);
+    //   console.log(action.payload);
+    //   state.todos.push({ ...action.payload, isCompleted: false });
+    // },
+
     removeToDo: (state, action: PayloadAction<string>) => {
+      console.log(action.payload);
       state.todos = state.todos.filter((todo) => todo.id !== action.payload);
     },
+
     toggleState: (state, action) => {
-      const todo = state.todos.find((todo) => todo.id === action.payload);
+      const todo = state.todos.find((todo) => todo._id === action.payload);
+
       todo!.isCompleted = !todo?.isCompleted;
     },
   },
